@@ -1,23 +1,9 @@
 import tdl
 import colors
+import window
+import object
 
-
-class Screen:
-    def __init__(self, width, height):
-        self.width = width
-        self.height = height
-
-class Window:
-    screen = Screen(80,50)
-
-    def __init__(self):
-        tdl.set_font('assets/arial10x10.png', greyscale=True, altLayout=True)
-        self.root = tdl.init(self.screen.width, self.screen.height, title="Dungeon Run", fullscreen=False)
-        self.con = tdl.Console(self.screen.width, self.screen.height)
-        tdl.set_fps(30)
-
-def handle_keys():
-    global playerx, playery
+def handle_keys(hero):
     keypress = False
     for event in tdl.event.get():
         if event.type == 'KEYDOWN':
@@ -35,27 +21,28 @@ def handle_keys():
 
     # movement keys
     if user_input.key == 'UP':
-        playery -= 1
+        hero.y -= 1
 
     elif user_input.key == 'DOWN':
-        playery += 1
+        hero.y += 1
 
     elif user_input.key == 'LEFT':
-        playerx -= 1
+        hero.x -= 1
 
     elif user_input.key == 'RIGHT':
-        playerx += 1
+        hero.x += 1
 
 def gameloop(w):
+    hero = object.GameObject(1, 1, '@', colors.red)
     while not tdl.event.is_window_closed():
-        w.con.draw_char(playerx, playery, '@', bg=None, fg=colors.red)
+        hero.draw(w.con)
         w.root.blit(w.con, 0, 0, w.screen.width, w.screen.height, 0, 0)
         tdl.flush()
-        w.con.draw_char(playerx, playery, ' ', bg=None, fg=colors.red)
-        escape_pushed = handle_keys()
+        hero.clear(w.con)
+        escape_pushed = handle_keys(hero)
         if escape_pushed:
                 break
 
 playerx,playery=0,0
-w = Window()
+w = window.Window()
 gameloop(w)
