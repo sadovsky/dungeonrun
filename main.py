@@ -34,15 +34,22 @@ def handle_keys(hero):
 
 def gameloop(w):
     hero = object.GameObject(1, 1, '@', colors.red)
+    npc = object.GameObject(20, 20, 'X', colors.blue)
+    objects = [hero, npc]
+
     while not tdl.event.is_window_closed():
-        hero.draw(w.con)
+        for obj in objects:
+            obj.draw(w.con)
+
         w.root.blit(w.con, 0, 0, w.screen.width, w.screen.height, 0, 0)
         tdl.flush()
-        hero.clear(w.con)
+
+        for obj in objects:
+            obj.clear(w.con)
+
         escape_pushed = handle_keys(hero)
         if escape_pushed:
                 break
 
-playerx,playery=0,0
 w = window.Window()
 gameloop(w)
