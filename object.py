@@ -1,9 +1,10 @@
+
 class GameObject:
     """
     Generic object: NPC, player, item, etc
     """
 
-    def __init__(self, x, y, char, color, blocking=False):
+    def __init__(self, x, y, char, color):
         """
         :param char: Character to represent object, ie "sprite"
         """
@@ -11,12 +12,12 @@ class GameObject:
         self.y = y
         self.char = char
         self.color = color
-        self.blocking = False
 
-    def move(self, dx, dy):
+    def move(self, dx, dy, stage):
         # move by the given amount
-        self.x += dx
-        self.y += dy
+        if not stage.map[self.x + dx][self.y + dy].blocked:
+            self.x += dx
+            self.y += dy
 
     def draw(self, con):
         # draw the character that represents this object at its position

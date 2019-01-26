@@ -1,7 +1,7 @@
 class Tile:
     # a tile of the map and its properties
-    def __init__(self, blocking):
-        self.blocking = blocking
+    def __init__(self, blocked):
+        self.blocked = blocked
 
 
 class Stage:
