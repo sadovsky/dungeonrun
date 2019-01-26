@@ -2,12 +2,19 @@ import tdl
 import colors
 
 
-def init():
-    tdl.set_font('assets/arial10x10.png', greyscale=True, altLayout=True)
-    console = tdl.init(80, 50, title="Dungeon Run", fullscreen=False)
-    tdl.set_fps(30)
-    return console
+class Screen:
+    def __init__(self, width, height):
+        self.width = width
+        self.height = height
 
+class Window:
+    screen = Screen(80,50)
+
+    def __init__(self):
+        tdl.set_font('assets/arial10x10.png', greyscale=True, altLayout=True)
+        self.root = tdl.init(self.screen.width, self.screen.height, title="Dungeon Run", fullscreen=False)
+        self.con = tdl.Console(self.screen.width, self.screen.height)
+        tdl.set_fps(30)
 
 def handle_keys():
     global playerx, playery
@@ -39,15 +46,16 @@ def handle_keys():
     elif user_input.key == 'RIGHT':
         playerx += 1
 
-def gameloop(console):
+def gameloop(w):
     while not tdl.event.is_window_closed():
-        console.draw_char(playerx, playery, '@', bg=None, fg=colors.red)
+        w.root.draw_char(playerx, playery, '@', bg=None, fg=colors.red)
+        #w.root.blit(w.con, 0, 0, w.screen.width, w.screen.height, 0, 0)
         tdl.flush()
-        console.draw_char(playerx, playery, ' ', bg=None, fg=colors.red)
+        w.root.draw_char(playerx, playery, ' ', bg=None, fg=colors.red)
         escape_pushed = handle_keys()
         if escape_pushed:
                 break
 
 playerx,playery=0,0
-console = init()
-gameloop(console)
+w = Window()
+gameloop(w)
