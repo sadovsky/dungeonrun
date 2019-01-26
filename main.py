@@ -48,10 +48,10 @@ def handle_keys():
 
 def gameloop(w):
     while not tdl.event.is_window_closed():
-        w.root.draw_char(playerx, playery, '@', bg=None, fg=colors.red)
-        #w.root.blit(w.con, 0, 0, w.screen.width, w.screen.height, 0, 0)
+        w.con.draw_char(playerx, playery, '@', bg=None, fg=colors.red)
+        w.root.blit(w.con, 0, 0, w.screen.width, w.screen.height, 0, 0)
         tdl.flush()
-        w.root.draw_char(playerx, playery, ' ', bg=None, fg=colors.red)
+        w.con.draw_char(playerx, playery, ' ', bg=None, fg=colors.red)
         escape_pushed = handle_keys()
         if escape_pushed:
                 break
